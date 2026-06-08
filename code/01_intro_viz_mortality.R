@@ -34,14 +34,17 @@ brewer.pal(5, "Set3")
 
 # build our own palette
 # ~~~~~~~~~~~~~~~~~~~~~
+
+# gradual change between 2 colors
 col1 <- "#0019FF"
 col2 <- "#FF0000"
-qt <- 5
+qt <- 10
 
 scale1 <- colorRampPalette(c(col1, col2), space = "Lab")(qt)
 scale1
 
-# "#0019FF" "#9900C2" "#C80088" "#E7004F" "#FF0000"
+# "#0019FF" "#6C06E3" "#9200C9" "#AC00AE" "#C00095" 
+# "#D0007B" "#DE0062" "#EA0049" "#F5002D" "#FF0000"
 
 # 2. unit scales for plotting mortality ====
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -96,6 +99,8 @@ mxs+scale_y_log10()
 
 # 3. plotting estimates of multiplicative order ====
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# e.g., ratios, relative risks, etc.
+# the most common issue in visualizations 
 
 # ratios
 # ~~~~~~
