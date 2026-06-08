@@ -102,8 +102,46 @@ mxs+scale_y_log10()
 # e.g., ratios, relative risks, etc.
 # the most common issue in visualizations 
 
-# ratios
-# ~~~~~~
+# let's say we have a series of risk ratios
+bks <- c(0.2, 0.5, 1, 2, 4)
+tst <- tibble(x = 1:5, y = bks)
+
+tst %>% 
+  ggplot()+
+  geom_point(aes(x, y))+
+  # adding a line to identify the equality (ratio = 1)
+  geom_hline(yintercept = 1, linetype  = "dashed")+
+  scale_y_continuous(breaks = bks)+
+  theme_bw()
+
+# any issues with this scale?
+# by principle, opposite values should be equidistant, and the two scales your 
+# are measuring should have the same magnitude
+# it is different the meaning of scale when our thinking is 
+# additive or multiplicative
+# e.g., in the case of ratios it is a multiplicative relation
+
+# in additive terms, the opposite of 2 is -2, the center is 0
+# in multiplicative terms? what is the opposite of double? what is the center?
+# what are the possible values in each direction?
+
+# a solution for this is to use log scales
+# the distance between 0.5 and 1 is the same as between 1 and 2
+# the distance between 0 and 1 is the same as between 1 and infinite
+# lets apply log scales
+
+
+tst %>% 
+  ggplot()+
+  geom_point(aes(x, y))+
+  # adding a line to identify the equality (ratio = 1)
+  geom_hline(yintercept = 1, linetype  = "dashed")+
+  scale_y_log10(breaks = bks)+
+  theme_bw()
+
+
+# example with sex ratios of mortality
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 sexr <- 
   dt %>% 
   filter(year == 2020) %>% 
@@ -122,41 +160,23 @@ p_sexr <-
   theme_bw()
 
 p_sexr
-# any issues with this scale?
-# by principle, opposite values should be equidistant, and the two scales your 
-# are measuring should have the same magnitude
-# it is different the meaning of scale when our thinking is 
-# additive or multiplicative
-# e.g., in the case of ratios it is a multiplicative relation
-
-# in additive terms, the opposite of 2 is -2, the center is 0
-# in multiplicative terms? what is the opposite of double? what is the center?
-# what are the possible values in each direction?
-
-# a solution for this is to use log scales
-# the distance between 0.5 and 1 is the same as between 1 and 2
-# the distance between 0 and 1 is the same as between 1 and infinite
-# lets apply log scales
 p_log_sexr <- 
   sexr %>% 
   ggplot()+
   geom_point(aes(age, log_sexr))+
-  # adding a line to identify the equality (ratio = 1)
-  geom_hline(yintercept = 1, linetype  = "dashed")+
+  # adding a line to identify the equality 
+  # (now it has to change to the log of 1 = 0)
+  geom_hline(yintercept = 0, linetype  = "dashed")+
   theme_bw()
 
 p_log_sexr
 
-# what happened? how to interpret the values? even the reference is not in the 
-# proper place
+# what happened? how to interpret the values? 
 # again, use the ggplot option to use the log scales while keeping the actual 
 # labels
 p_sexr+scale_y_log10(breaks = c(0.5, 1, 2, 4))
 
 # the same principle works for relative risk (RR) measures!!
-
-
-
 
 # 4. Lexis diagrams ====
 # ~~~~~~~~~~~~~~~~~~~~~~
