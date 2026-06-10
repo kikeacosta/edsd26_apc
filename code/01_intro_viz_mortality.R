@@ -43,7 +43,7 @@ qt <- 10
 scale1 <- colorRampPalette(c(col1, col2), space = "Lab")(qt)
 scale1
 
-# "#0019FF" "#6C06E3" "#9200C9" "#AC00AE" "#C00095" 
+# "#0019FF" "#6C06E3" "#9200C9" "#AC00AE" "#C00095"
 # "#D0007B" "#DE0062" "#EA0049" "#F5002D" "#FF0000"
 
 # 2. unit scales for plotting mortality ====
@@ -103,7 +103,7 @@ mxs+scale_y_log10()
 # the most common issue in visualizations 
 
 # let's say we have a series of risk ratios
-bks <- c(0.2, 0.5, 1, 2, 4)
+bks <- c(0.2, 0.5, 1, 2, 5)
 tst <- tibble(x = 1:5, y = bks)
 
 tst %>% 
@@ -325,7 +325,7 @@ s_lexis1 <-
   scale_fill_viridis(option = "C", discrete = F,  direction = -1, 
                      breaks = brks, labels = lbls,
                      name = "Mortality\nrate /100k") +
-  geom_contour(bins = 20, col = "black", size = .15, alpha = 0.8)+
+  geom_contour(bins = 20, col = "black", lwd = .15, alpha = 0.8)+
   lexis_shape
 
 s_lexis1
