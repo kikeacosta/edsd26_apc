@@ -267,7 +267,7 @@ p1 <-
   scale_fill_viridis(option = "C", discrete = F,  direction = -1, 
                      breaks = brks, labels = lbls,
                      name = "Mortality\nrate /100k") +
-  geom_contour(bins = 30, col="black", size=.15, alpha=0.8)+
+  geom_contour(bins = 30, col="black", lwd =.15, alpha=0.8)+
   lexis_shape
   
 p1
@@ -587,7 +587,7 @@ plot_change("FRATNP", "female", 0, 80, 1950, 2020)
 # 2) Identify the presence of period or cohort effects in each group
 # 3) Discuss which possible mechanisms could have caused the observed disturbances 
 # in mortality, and the differences between both populations. You can have a quick 
-# look on internet to find some clues
+# look on internet/AI to find some clues
 # 4) Choose a member of the group to present in 2 minutes the Lexis surfaces, 
 # the identified effects, and the mechanisms that could be driving those 
 # disturbances in mortality

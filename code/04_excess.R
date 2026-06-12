@@ -8,6 +8,7 @@ source("code/00_setup.R")
 
 # 3 baselines: 3 colors
 cols <- brewer.pal(3, "Dark2")
+# "#1B9E77" "#D95F02" "#7570B3"
 
 # loading mortality data ====
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -82,6 +83,8 @@ dt2 <-
          t = 1:n(), # a variable for the secular trend 
          w = ifelse(date <= "2020-03-15", 1, 0)) # a variable for the weights 
 
+dt2
+
 # Fitting a GAM model to estimate expected mortality ====
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -94,7 +97,7 @@ gam_model <-
   gam(dts ~
         # linear term (exponential outside Poisson) for the secular trend
         t +
-        # cyclic spline term for the seasonal trend
+        # cyclic spline term for the annual seasonal trend (in a weekly scale)
         s(week, bs = 'cp') + 
         # controlling for population changes over time
         offset(log(exposure)), 
@@ -133,7 +136,8 @@ bsn %>%
 exc <- 
   bsn %>% 
   filter(date >= "2020-03-15",
-         date <= "2023-12-31") %>% 
+         date <= "2023-12-31") %>%
+  # the difference between the observed and the baseline (i.e., counter-factual) 
   mutate(exc = dts - bsn) 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -155,7 +159,10 @@ bsns <-
               mutate(type = "weekly_spc_average"),
             bsn %>% 
               select(year, week, date, dts, bsn) %>% 
-              mutate(type = "poisson_model"))
+              mutate(type = "poisson_model")) %>% 
+  mutate(type = factor(type, levels = c("weekly_average",
+                                        "weekly_spc_average",
+                                        "poisson_model")))
 unique(bsns$type)
 
 # plotting the three baselines
